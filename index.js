@@ -23,24 +23,24 @@ const weapons = [
         power: 3,
     },
     {
-        name: "Routan",
+        name: "Legendary Routan",
         power: 10,
         text: `The "Legendary Routan" isn't just a stick; it's the very one 'weapon' used to chase the legendary adventurers.`
     },
     {
-        name: "Knife",
+        name: "Deceptive Culinary Knife",
         power: 30,
         text: `The "Deceptive Culinary Knife" comes with extraordinary tales of its past. Legend has it that it was once wielded by a supermom who whipped up meals so incredible that they stopped wars and tamed dragons.
         
         While it may not have the power to solve world conflicts, it's certainly great for slicing veggies!`
     },
     {
-        name: "Brick",
+        name: "Just a Brick",
         power: 50,
         text: `"Just a Brick." No legends, no heroic tales—just a brick.`
     },
     {
-        name: "Pebble",
+        name: "Almighty Pebble",
         power: 100,
         text: `In the sleepy village of Iwagukure, the "Almighty Pebble" is the stuff of legends.
         
@@ -51,9 +51,9 @@ const weapons = [
 const monsters = [
     {
         name: "Slime",
-        level: 2,
+        level: 3,
         health: 30,
-        power: 10
+        power: 2
     },
     {
         name: "Mushrum",
@@ -65,7 +65,10 @@ const monsters = [
         name: "Doragon",
         level: 100,
         health: 3000,
-        power: 150
+        power: 150,
+        text: `You have encountered something... rather extraordinary. As you ventured further into the unknown, a colossal silhouette loomed overhead. Your heart pounded with a mix of fear and curiosity.
+
+        As the shadows gave way to the creature's true form, it became clear that you were face to face with none other than the magnificent dragon, "Doragon". Its immense, serpentine body coiled gracefully, and its eyes gleamed with a wisdom that spoke of ages past.`
     }
 ]
 
@@ -100,13 +103,15 @@ const locations = [
         name: "moves",
         "button text": [`Attack`, `Dodge`, `Flee`],
         "button functions": [attack, dodge, goVillage],
-        text: `You are fighting a something.`
+        text: `You have encountered a something.`
     },
     {
         name: "kill monster",
         "button text": [`Stay Here`, `Move Forward`, `Go to village`],
         "button functions": ['', goCave, goVillage],
-        text: `The once-fearsome monster, known throughout the land for its terrifying roars and menacing presence, met its end in the most pitiful way imaginable.`
+        text: `You defeated the monster!
+
+        The once-fearsome monster, known throughout the land for its terrifying roars and menacing presence, met its end in the most pitiful way imaginable.`
     },
     {
         name: "lose",
@@ -184,13 +189,13 @@ function buyWeapon() {
             currentWeapon++;
             goldText.innerText = gold;
             let newWeapon = weapons[currentWeapon].name;
-            text.innerText = `You now have a ${newWeapon}.
+            text.innerText = `You now have a "${newWeapon}".
             
             ${weapons[currentWeapon].text}
             
             `;
             inventory.push(newWeapon);
-            text.innerText = `In your inventory you have ${inventory}.`
+            text.innerText += `In your inventory you have: ${inventory.join(`, `)}.`
         } else {
             text.innerText = `"Please. Have the door over there.
             
@@ -210,7 +215,7 @@ function sellWeapon() {
         let currentWeapon = inventory.shift();
         text.innerText = `You sold a ${currentWeapon}`;
         text.innerText = `
-        In you inventory you have: ${inventory}`;
+        In you inventory you have: ${inventory.join(`, `)}`;
     } else {
         text.innerText = `"HOW DO YOU WANT TO FIGHT LATER?!"`;
     }
@@ -235,6 +240,7 @@ function suicide() {
     console.log(`THE DRAGON WAS HERE!.`)
     fighting = 2;
     goFight();
+    text.innerText = monsters[2].text;
 }
 
 function goFight() {
@@ -265,8 +271,8 @@ function dodge() {
 }
 
 function defeatMonster() {
-    gold += Math.floor(monsters[fighting].level * 6.7);
-    xp += Math.floor(monsters[fighting].level * 0.5);
+    gold += Math.floor(monsters[fighting].level * 8.7);
+    xp += Math.floor(monsters[fighting].level * 1.5);
     goldText.innerText = gold;
     xpText.innerText = xp;
     update(locations[4]);
